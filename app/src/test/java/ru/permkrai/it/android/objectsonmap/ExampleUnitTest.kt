@@ -1,4 +1,4 @@
-package ru.permkrai.it.android.objectsobmap
+package ru.permkrai.it.android.objectsonmap
 
 import org.junit.Test
 
