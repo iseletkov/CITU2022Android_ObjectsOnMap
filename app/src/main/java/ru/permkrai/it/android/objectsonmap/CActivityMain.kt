@@ -13,7 +13,7 @@ class CActivityMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        Log.d(">>>>THIS IS TAG<<<", ">>>>>message<<<<<")
+        Log.d("TEST", ">>>>>message<<<<<")
         setContentView(R.layout.activity_main)
 
         val button : Button = findViewById(R.id.button1)
