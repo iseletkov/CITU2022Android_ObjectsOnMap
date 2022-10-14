@@ -1,94 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F5F5F6"
-    android:orientation="vertical"
-    tools:context=".CActivityMain">
-
-    <Space
+    android:layout_height="match_parent">
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <EditText
-        android:id="@+id/editTextInput1"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/RowHeight"
-        android:layout_marginStart="@dimen/MarginSize"
-        android:layout_marginEnd="@dimen/MarginSize"
-        android:ems="10"
-        android:inputType="number"
-        android:textColor="@color/black" />
-
-    <EditText
-        android:id="@+id/editTextInput2"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/RowHeight"
-        android:layout_marginStart="@dimen/MarginSize"
-        android:layout_marginEnd="@dimen/MarginSize"
-        android:ems="10"
-        android:inputType="number"
-        android:textColor="@color/black" />
-
+        android:layout_height="match_parent"
+        android:src="@mipmap/background"
+        android:scaleType="centerCrop"
+        />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".CActivityMain"
 
+        >
 
-        <Button
-            android:id="@+id/buttonPlus"
-            android:layout_width="0dp"
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <EditText
+            android:id="@+id/editTextInput1"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/RowHeight"
-            android:layout_margin="@dimen/MarginSize"
-            android:layout_weight="1"
-            android:text="+"
-            app:backgroundTint="#5e35b1" />
+            android:layout_marginStart="@dimen/MarginSize"
+            android:layout_marginEnd="@dimen/MarginSize"
+            android:ems="10"
+            android:inputType="number"
+            android:text="adawd"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:paddingStart="10dp"
+            android:backgroundTint="@color/white"
+            />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/filledTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Число № 1"
 
-        <Button
-            android:id="@+id/buttonMinus"
-            android:layout_width="0dp"
+            style="@style/button">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <EditText
+            android:id="@+id/editTextInput2"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/RowHeight"
-            android:layout_margin="@dimen/MarginSize"
-            android:layout_weight="1"
-            android:text="-"
-            app:backgroundTint="#5e35b1" />
+            android:layout_marginStart="@dimen/MarginSize"
+            android:layout_marginEnd="@dimen/MarginSize"
+            android:ems="10"
+            android:inputType="number"
+            android:text="12312312312"
+            android:textColor="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            android:background="@color/primary"
+            android:foregroundTint="@color/white"
+            />
 
-        <Button
-            android:id="@+id/buttonMultiply"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/buttonPlus"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/RowHeight"
+                android:layout_margin="@dimen/MarginSize"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_plus_white_24"
+                app:backgroundTint="@color/primary" />
+
+            <ImageView
+                android:id="@+id/imageViewMinus"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/RowHeight"
+                android:layout_margin="@dimen/MarginSize"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_plus_white_24"
+                style="@style/button"/>
+
+            <ImageView
+                android:id="@+id/buttonMultiply"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/RowHeight"
+                android:layout_margin="@dimen/MarginSize"
+                android:layout_weight="1"
+                app:srcCompat="@mipmap/multiplication"
+                />
+
+            <ImageButton
+                android:id="@+id/buttonDevision"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/RowHeight"
+                android:layout_weight="1"
+                android:src="@drawable/ic_division_white_24"
+                style="@style/button"
+                />
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/textViewOutput"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/RowHeight"
-            android:layout_margin="@dimen/MarginSize"
-            android:layout_weight="1"
-            android:text="*"
-            app:backgroundTint="#5e35b1" />
+            android:layout_marginStart="@dimen/MarginSize"
+            android:layout_marginEnd="@dimen/MarginSize"
+            android:textColor="@color/black" />
 
-        <Button
-            android:id="@+id/buttonDevision"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/RowHeight"
-            android:layout_margin="@dimen/MarginSize"
-            android:layout_weight="1"
-            android:text="/"
-            app:backgroundTint="#5e35b1" />
-
-
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
     </LinearLayout>
+</FrameLayout>
 
-
-    <TextView
-        android:id="@+id/textViewOutput"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/RowHeight"
-        android:layout_marginStart="@dimen/MarginSize"
-        android:layout_marginEnd="@dimen/MarginSize"
-        android:textColor="@color/black" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-</LinearLayout>

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 
 class CActivityMain : AppCompatActivity() {
@@ -28,6 +29,7 @@ class CActivityMain : AppCompatActivity() {
             val v2 = editTextInput2.text.toString().toDouble()
             textViewOutput.text =  "${v1+v2}"
         }
+
 
 
     }
