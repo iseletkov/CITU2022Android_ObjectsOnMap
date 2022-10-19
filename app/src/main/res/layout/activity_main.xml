@@ -5,12 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@mipmap/background"
-        android:scaleType="centerCrop"
-        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,98 +13,78 @@
         tools:context=".CActivityMain"
 
         >
-
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <EditText
-            android:id="@+id/editTextInput1"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/RowHeight"
-            android:layout_marginStart="@dimen/MarginSize"
-            android:layout_marginEnd="@dimen/MarginSize"
-            android:ems="10"
-            android:inputType="number"
-            android:text="adawd"
-            android:textColor="@color/black"
-            android:background="@color/white"
-            android:paddingStart="10dp"
-            android:backgroundTint="@color/white"
-            />
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField"
+            android:id="@+id/input1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Число № 1"
-
-            style="@style/button">
-
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
                 />
-
         </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/editTextInput2"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input2"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/RowHeight"
-            android:layout_marginStart="@dimen/MarginSize"
-            android:layout_marginEnd="@dimen/MarginSize"
-            android:ems="10"
-            android:inputType="number"
-            android:text="12312312312"
-            android:textColor="@color/primary"
-            android:textSize="20sp"
-            android:textStyle="bold|italic"
-            android:background="@color/primary"
-            android:foregroundTint="@color/white"
-            />
+            android:layout_height="wrap_content"
+            android:hint="Число № 2"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonPlus"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/RowHeight"
                 android:layout_margin="@dimen/MarginSize"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_plus_white_24"
-                app:backgroundTint="@color/primary" />
-
-            <ImageView
+                android:text=""
+                app:icon="@drawable/ic_plus_white_24"
+                style="@style/button.IconOnly"/>
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/imageViewMinus"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/RowHeight"
                 android:layout_margin="@dimen/MarginSize"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_plus_white_24"
-                style="@style/button"/>
+                app:icon="@drawable/ic_remove_white_24"
+                style="@style/button.IconOnly"/>
 
-            <ImageView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonMultiply"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/RowHeight"
                 android:layout_margin="@dimen/MarginSize"
                 android:layout_weight="1"
-                app:srcCompat="@mipmap/multiplication"
+                app:icon="@drawable/ic_multiply_white_24"
+                style="@style/button.IconOnly"
                 />
 
-            <ImageButton
-                android:id="@+id/buttonDevision"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonDivision"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/RowHeight"
                 android:layout_weight="1"
-                android:src="@drawable/ic_division_white_24"
-                style="@style/button"
+                app:icon="@drawable/division_white"
+                style="@style/button.IconOnly"
                 />
 
 
