@@ -1,4 +1,4 @@
-package ru.permkrai.it.android.objectsonmap
+package ru.permkrai.it.android.objectsonmap.model
 
 class CObject(
     var name : String,

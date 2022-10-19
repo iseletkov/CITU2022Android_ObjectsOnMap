@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ObjectsOnMap</string>
+    <string name="Input2">Number 2</string>
+    <string name="Input1">Number 1</string>
+    <string name="Output">Your output is: %1$f</string>
+    <string name="About">About</string>
+    <string name="Add">Add</string>
 </resources>

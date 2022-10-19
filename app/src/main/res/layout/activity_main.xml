@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".CActivityMain"
+        tools:context=".activities.CActivityMain"
 
         >
         <Space
@@ -22,13 +22,14 @@
             android:id="@+id/input1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Число № 1"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:hint="@string/Input1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:inputType="numberDecimal"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -36,12 +37,13 @@
             android:id="@+id/input2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Число № 2"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            android:hint="@string/Input2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:inputType="numberDecimal"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,7 +99,7 @@
             android:layout_height="@dimen/RowHeight"
             android:layout_marginStart="@dimen/MarginSize"
             android:layout_marginEnd="@dimen/MarginSize"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
 
         <Space
             android:layout_width="match_parent"

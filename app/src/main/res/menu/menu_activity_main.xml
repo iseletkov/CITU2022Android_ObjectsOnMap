@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/miAbout"
+        android:icon="@drawable/ic_help_white_24"
+        android:title="@string/About"
+        app:showAsAction="never"/>
+    <item android:id="@+id/miAdd"
+        android:icon="@drawable/ic_plus_white_24"
+        android:title="@string/Add"
+        app:showAsAction="ifRoom|withText"/>
+</menu>

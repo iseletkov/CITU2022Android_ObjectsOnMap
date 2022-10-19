@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ObjectsOnMap</string>
+    <string name="Input1">Число № 1</string>
+    <string name="Input2">Число № 2</string>
+    <string name="Output">Ваш ответ: %1$f</string>
+    <string name="About">О программе</string>
+    <string name="Add">Сложить</string>
+</resources>
