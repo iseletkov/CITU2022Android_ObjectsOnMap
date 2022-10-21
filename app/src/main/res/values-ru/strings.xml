@@ -6,4 +6,5 @@
     <string name="Output">Ваш ответ: %1$f</string>
     <string name="About">О программе</string>
     <string name="Add">Сложить</string>
+    <string name="Close">Закрыть</string>
 </resources>

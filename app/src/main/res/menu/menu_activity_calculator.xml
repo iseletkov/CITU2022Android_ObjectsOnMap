@@ -6,6 +6,14 @@
         android:icon="@drawable/ic_help_white_24"
         android:title="@string/About"
         app:showAsAction="never"/>
+    <item android:id="@+id/miPhoto"
+        android:icon="@drawable/ic_help_white_24"
+        android:title="Камера"
+        app:showAsAction="never"/>
+    <item android:id="@+id/miClose"
+        android:icon="@drawable/ic_help_white_24"
+        android:title="@string/Close"
+        app:showAsAction="never"/>
     <item android:id="@+id/miAdd"
         android:icon="@drawable/ic_plus_white_24"
         android:title="@string/Add"

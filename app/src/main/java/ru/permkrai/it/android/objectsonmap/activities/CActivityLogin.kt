@@ -17,18 +17,29 @@ class CActivityLogin : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // There are no request codes
                 val data: Intent? = result.data
+                val tests = data?.getStringExtra("MY_KEY_3")
+                val x = 123
                 //doSomeOperations()
             }
         }
     }
     fun onButtonClick(view : View)
     {
-        val intent = Intent(this, CActivityCalculator::class.java)
+        //Вызов активности без отслеживания результата
+        //startActivity()
+
+        //Устаревший способ с отслеживанием результата
         //startActivityForResult(intent, 1)
+
+        //Актуальный способ
+        val intent = Intent(this, CActivityCalculator::class.java)
+        intent.putExtra("MY_KEY_STRING", "Это тестовая строка")
+        intent.putExtra("MY_KEY_DOUBLE", 123.456)
         resultLauncher.launch(intent)
     }
 
