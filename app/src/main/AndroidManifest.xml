@@ -26,7 +26,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.CActivityMain"
+            android:name=".activities.CActivityCalculator"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

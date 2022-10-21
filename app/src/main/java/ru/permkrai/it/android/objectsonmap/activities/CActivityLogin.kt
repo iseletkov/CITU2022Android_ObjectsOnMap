@@ -27,7 +27,7 @@ class CActivityLogin : AppCompatActivity() {
     }
     fun onButtonClick(view : View)
     {
-        val intent = Intent(this, CActivityMain::class.java)
+        val intent = Intent(this, CActivityCalculator::class.java)
         //startActivityForResult(intent, 1)
         resultLauncher.launch(intent)
     }

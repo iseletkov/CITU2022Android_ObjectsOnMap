@@ -9,11 +9,12 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.menu.MenuBuilder
 import com.google.android.material.textfield.TextInputLayout
 import ru.permkrai.it.android.objectsonmap.R
 
 
-class CActivityMain : AppCompatActivity() {
+class CActivityCalculator : AppCompatActivity() {
     private lateinit var editTextInput1 : TextInputLayout
     private lateinit var editTextInput2 : TextInputLayout
     private lateinit var textViewOutput : TextView
@@ -38,7 +39,7 @@ class CActivityMain : AppCompatActivity() {
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_activity_main, menu)
+        inflater.inflate(R.menu.menu_activity_calculator, menu)
         return true
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
