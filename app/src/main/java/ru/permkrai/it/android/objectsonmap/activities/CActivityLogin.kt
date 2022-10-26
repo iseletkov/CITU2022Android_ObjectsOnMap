@@ -37,9 +37,9 @@ class CActivityLogin : AppCompatActivity() {
         //startActivityForResult(intent, 1)
 
         //Актуальный способ
-        val intent = Intent(this, CActivityCalculator::class.java)
-        intent.putExtra("MY_KEY_STRING", "Это тестовая строка")
-        intent.putExtra("MY_KEY_DOUBLE", 123.456)
+        val intent = Intent(this, CActivityList::class.java)
+        //intent.putExtra("MY_KEY_STRING", "Это тестовая строка")
+        //intent.putExtra("MY_KEY_DOUBLE", 123.456)
         resultLauncher.launch(intent)
     }
 
