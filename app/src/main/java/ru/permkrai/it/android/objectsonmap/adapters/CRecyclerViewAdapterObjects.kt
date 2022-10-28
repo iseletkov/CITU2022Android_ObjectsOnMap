@@ -13,6 +13,8 @@ import ru.permkrai.it.android.objectsonmap.model.CObject
  * об элементе в строку списка.                                                                         *
  * @link https://developer.alexanderklimov.ru/android/views/recyclerview-kot.php                        *
  * @link https://medium.com/nuances-of-programming/kotlin-реализация-recyclerview-на-android-6c93981e9abf
+ * @link https://medium.com/android-gate/recyclerview-item-click-listener-the-right-way-daecc838fbb9
+ * @link https://antonioleiva.com/recyclerview-adapter-kotlin/
  *******************************************************************************************************/
 class CRecyclerViewAdapterObjects
 /********************************************************************************************************
@@ -21,7 +23,7 @@ class CRecyclerViewAdapterObjects
  *******************************************************************************************************/
 (
     private val items                       : MutableList<CObject>,
-    private val listener                    : IItemClickListener
+    private val listener                    : (Int, CObject) -> Unit
 )                                           : RecyclerView.Adapter<CRecyclerViewAdapterObjects.CViewHolderObject>()
 {
     /****************************************************************************************************
@@ -34,7 +36,7 @@ class CRecyclerViewAdapterObjects
      ***************************************************************************************************/
     (
         private val binding                 : RecyclerviewobjectsItemBinding,
-        private val listener                : IItemClickListener
+        private val listener                : (Int, CObject) -> Unit
     )                                       : RecyclerView.ViewHolder(binding.root)
     {
         private lateinit var item           : CObject
@@ -42,7 +44,7 @@ class CRecyclerViewAdapterObjects
 
         init{
             binding.linearLayoutObject.setOnClickListener {
-                listener.onItemClick(index, item)
+                listener(index, item)
             }
         }
 
@@ -87,10 +89,5 @@ class CRecyclerViewAdapterObjects
      ***************************************************************************************************/
     override fun getItemCount(): Int {
         return items.size
-    }
-
-    interface IItemClickListener
-    {
-        fun onItemClick(index : Int, item : CObject)
     }
 }
