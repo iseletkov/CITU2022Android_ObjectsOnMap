@@ -10,9 +10,10 @@
     app:cardElevation="8dp">
 
     <LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+        android:id="@+id/linearLayoutObject"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
     >
     <TextView
         android:id="@+id/textViewName"

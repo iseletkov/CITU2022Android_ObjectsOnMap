@@ -2,6 +2,7 @@ package ru.permkrai.it.android.objectsonmap.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.permkrai.it.android.objectsonmap.R
@@ -12,7 +13,9 @@ import ru.permkrai.it.android.objectsonmap.model.CObject
 /********************************************************************************************************
  * Активность с отображением списка объектов на карте.                                                  *
  *******************************************************************************************************/
-class CActivityList : AppCompatActivity() {
+class CActivityList                         : AppCompatActivity(),
+        CRecyclerViewAdapterObjects.IItemClickListener
+{
     //Объект класса, содержащий сылки на управляющие графические элементы интерфейса пользователя.
     private lateinit var binding : ActivityListBinding
 
@@ -35,6 +38,10 @@ class CActivityList : AppCompatActivity() {
         items.add(CObject("Усьвинские столбы", "Известняковый массив высотой 120 метров протянулся на километры по правому берегу Усьвы. Как туристический объект интересует скалолазов, спелеологов и любителей археологии. Здесь множество пещер и гротов, причем регулярно открываются новые: скала довольно сложна для восхождения и не вся обследована. Отдельная достопримечательность — Чертов Палец, вертикальный скальный выступ высотой 70 метров."))
 
         binding.rvObjects.layoutManager          = LinearLayoutManager(this)
-        binding.rvObjects.adapter                = CRecyclerViewAdapterObjects(items)
+        binding.rvObjects.adapter                = CRecyclerViewAdapterObjects(items, this)
+    }
+
+    override fun onItemClick(index: Int, item: CObject) {
+        Toast.makeText(this, "Клик на элемент ${item.name} с порядковым номером $index", Toast.LENGTH_SHORT).show()
     }
 }

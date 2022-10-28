@@ -1,6 +1,8 @@
 package ru.permkrai.it.android.objectsonmap.adapters
 
 import android.view.LayoutInflater
+import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.permkrai.it.android.objectsonmap.databinding.RecyclerviewobjectsItemBinding
@@ -18,30 +20,42 @@ class CRecyclerViewAdapterObjects
  * @param items - список элементов данных, информацию по которым нужноо выводить на экран.              *
  *******************************************************************************************************/
 (
-    private val items                       : MutableList<CObject>
+    private val items                       : MutableList<CObject>,
+    private val listener                    : IItemClickListener
 )                                           : RecyclerView.Adapter<CRecyclerViewAdapterObjects.CViewHolderObject>()
 {
     /****************************************************************************************************
      * Вспомогательный класс, оотвечающий за визуальное отображение одного элемента данных.             *
      ***************************************************************************************************/
-    class CViewHolderObject
+    inner class CViewHolderObject
     /****************************************************************************************************
      * Конструктор.                                                                                     *
      * @param binding - объект, хранящий ссылки на элементы интерфейса, у которых указан идентификатор. *
      ***************************************************************************************************/
     (
-        private val binding                 : RecyclerviewobjectsItemBinding
+        private val binding                 : RecyclerviewobjectsItemBinding,
+        private val listener                : IItemClickListener
     )                                       : RecyclerView.ViewHolder(binding.root)
     {
         private lateinit var item           : CObject
+        private var index                   : Int = -1
+
+        init{
+            binding.linearLayoutObject.setOnClickListener {
+                listener.onItemClick(index, item)
+            }
+        }
+
         /************************************************************************************************
          * Метод описывает логику вывода элемента данных в строку списка.                               *
          * @param newItem - элемент данных для вывода.                                                  *
          ***********************************************************************************************/
         fun bind(
-            newItem                         : CObject
+            newItem                         : CObject,
+            position                        : Int
         )
         {
+            index                           = position
             item                            = newItem
             binding.textViewName.text       = newItem.name
             binding.textViewDescription.text= newItem.description
@@ -55,7 +69,7 @@ class CRecyclerViewAdapterObjects
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CViewHolderObject {
         val binding                         = RecyclerviewobjectsItemBinding.inflate(
             LayoutInflater.from(parent.context),parent,false)
-        return CViewHolderObject(binding)
+        return CViewHolderObject(binding, listener)
     }
 
     /****************************************************************************************************
@@ -65,7 +79,7 @@ class CRecyclerViewAdapterObjects
      * @param position - порядковый номер элемента данных в списке.                                     *
      ***************************************************************************************************/
     override fun onBindViewHolder(holder: CViewHolderObject, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], position)
     }
     /****************************************************************************************************
      * Возвращает актуальное количество элементов в списке.                                             *
@@ -73,5 +87,10 @@ class CRecyclerViewAdapterObjects
      ***************************************************************************************************/
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    interface IItemClickListener
+    {
+        fun onItemClick(index : Int, item : CObject)
     }
 }
