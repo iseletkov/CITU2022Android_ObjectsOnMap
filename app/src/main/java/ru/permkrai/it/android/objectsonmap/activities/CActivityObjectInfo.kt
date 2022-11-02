@@ -28,6 +28,7 @@ class CActivityObjectInfo                   : AppCompatActivity()
         binding                             = ActivityObjectInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Пример кода проверки наличия параметров без использования синтаксиса языка Kotlin.
 //        val extr = intent.extras
 //        if ( extr==null)
 //        {
@@ -43,12 +44,13 @@ class CActivityObjectInfo                   : AppCompatActivity()
 
         //Получение переданных параметров
         intent.extras?.let{
-            index = it.getInt("KEY_INDEX")
+            index                           = it.getInt("KEY_INDEX")
             //Вывод наименования объекта на экран.
             binding.inputName.editText!!.setText(it.getString("KEY_OBJECT_NAME")?: "")
-        }?:run{
-            //Toast.makeText(this, "Параметры недоступны!", Toast.LENGTH_SHORT).show()
-            index = -1
+        }?:
+        //Этот кусок кода выполняется, если intent.extras==null (т.е. параметры не переданы).
+        run{
+            index                           = -1
             binding.inputName.editText!!.setText("")
         }
 

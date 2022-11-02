@@ -45,13 +45,23 @@ class CActivityList                         : AppCompatActivity()
         items.add(CObject("Усьвинские столбы", "Известняковый массив высотой 120 метров протянулся на километры по правому берегу Усьвы. Как туристический объект интересует скалолазов, спелеологов и любителей археологии. Здесь множество пещер и гротов, причем регулярно открываются новые: скала довольно сложна для восхождения и не вся обследована. Отдельная достопримечательность — Чертов Палец, вертикальный скальный выступ высотой 70 метров."))
 
         binding.rvObjects.layoutManager     = LinearLayoutManager(this)
-        binding.rvObjects.adapter           = CRecyclerViewAdapterObjects(items) { index, item ->
-            //Вызовв активности с информацией по объекту, передача туда параметров.
-            val intent                      = Intent(this, CActivityObjectInfo::class.java)
-            intent.putExtra("KEY_INDEX", index)
-            intent.putExtra("KEY_OBJECT_NAME", item.name)
-            resultLauncherObjectEdit.launch(intent)
-        }
+        binding.rvObjects.adapter           = CRecyclerViewAdapterObjects(
+            //Список элементов
+            items,
+            //Обработчик клика по элементу.
+            { index, item ->
+                //Вызов активности с информацией по объекту, передача туда параметров.
+                val intent                  = Intent(this, CActivityObjectInfo::class.java)
+                intent.putExtra("KEY_INDEX", index)
+                intent.putExtra("KEY_OBJECT_NAME", item.name)
+                resultLauncherObjectEdit.launch(intent)
+            },
+            //Обработчик клика на кнопку "удалить" элемента.
+            { index, _ ->
+                items.removeAt(index)
+                binding.rvObjects.adapter?.notifyItemRemoved(index)
+            }
+        )
 
         /************************************************************************************************
          * Обработка события завершения активности с информацией по объекту в режиме редактирования
@@ -81,8 +91,8 @@ class CActivityList                         : AppCompatActivity()
             }
         }
         /************************************************************************************************
-         * Обработка события завершения активности с информацией по объекту в режиме создания нового
-         * объекта.                            *
+         * Обработка события завершения активности с информацией по объекту в режиме создания нового    *
+         * объекта.                                                                                     *
          ***********************************************************************************************/
         resultLauncherObjectAdd             = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -99,12 +109,13 @@ class CActivityList                         : AppCompatActivity()
 
             }
         }
+        /************************************************************************************************
+         * Обработка клика на плавующую кнопку.                                                         *
+         ***********************************************************************************************/
         binding.fab.setOnClickListener {
-            //Вызовв активности с информацией по объекту, передача туда параметров.
+            //Вызов активности с информацией по объекту, передача туда параметров.
             val intent                      = Intent(this, CActivityObjectInfo::class.java)
             resultLauncherObjectAdd.launch(intent)
         }
     }
-
-
 }

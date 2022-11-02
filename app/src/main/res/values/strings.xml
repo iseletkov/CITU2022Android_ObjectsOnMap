@@ -7,4 +7,5 @@
     <string name="Add">Add</string>
     <string name="Close">Close</string>
     <string name="AddObject">Add object</string>
+    <string name="name">Name</string>
 </resources>

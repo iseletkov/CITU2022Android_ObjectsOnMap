@@ -8,4 +8,5 @@
     <string name="Add">Сложить</string>
     <string name="Close">Закрыть</string>
     <string name="AddObject">Добавить объект</string>
+    <string name="name">Наименование</string>
 </resources>
