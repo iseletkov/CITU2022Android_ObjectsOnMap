@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +20,8 @@ import ru.permkrai.it.android.objectsonmap.model.CObject
  *******************************************************************************************************/
 class CActivityList                         : AppCompatActivity()
 {
-    private lateinit var resultLauncher     : ActivityResultLauncher<Intent>
+    private lateinit var resultLauncherObjectEdit : ActivityResultLauncher<Intent>
+    private lateinit var resultLauncherObjectAdd : ActivityResultLauncher<Intent>
 
     //Объект класса, содержащий сылки на управляющие графические элементы интерфейса пользователя.
     private lateinit var binding            : ActivityListBinding
@@ -48,13 +50,14 @@ class CActivityList                         : AppCompatActivity()
             val intent                      = Intent(this, CActivityObjectInfo::class.java)
             intent.putExtra("KEY_INDEX", index)
             intent.putExtra("KEY_OBJECT_NAME", item.name)
-            resultLauncher.launch(intent)
+            resultLauncherObjectEdit.launch(intent)
         }
 
         /************************************************************************************************
-         * Обработка события завершения активности с информацией по объекту.                            *
+         * Обработка события завершения активности с информацией по объекту в режиме редактирования
+         * существующего объекта.                            *
          ***********************************************************************************************/
-        resultLauncher                      = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        resultLauncherObjectEdit            = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 //Получение параметров из дочерней активности
                 val data                    : Intent?
@@ -77,5 +80,31 @@ class CActivityList                         : AppCompatActivity()
                 }
             }
         }
+        /************************************************************************************************
+         * Обработка события завершения активности с информацией по объекту в режиме создания нового
+         * объекта.                            *
+         ***********************************************************************************************/
+        resultLauncherObjectAdd             = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                //Получение параметров из дочерней активности
+                val data                    : Intent?
+                                            = result.data
+                val name                    = data?.getStringExtra("KEY_OBJECT_NAME") ?: ""
+
+                //Добавляем объект в список данных.
+                items.add(CObject(name, "test"))
+                //Говорим адаптеру списка, что конкретная единица данных добавлена,
+                //нужно повторно её вывести на экран.
+                (binding.rvObjects.adapter as CRecyclerViewAdapterObjects).notifyItemInserted(items.size-1)
+
+            }
+        }
+        binding.fab.setOnClickListener {
+            //Вызовв активности с информацией по объекту, передача туда параметров.
+            val intent                      = Intent(this, CActivityObjectInfo::class.java)
+            resultLauncherObjectAdd.launch(intent)
+        }
     }
+
+
 }
