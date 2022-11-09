@@ -23,7 +23,7 @@ class CActivityList                         : AppCompatActivity()
 {
     private lateinit var resultLauncherObjectEdit : ActivityResultLauncher<Intent>
     private lateinit var resultLauncherObjectAdd : ActivityResultLauncher<Intent>
-    private lateinit var resultLauncherPermission : ActivityResultLauncher<String>
+    private lateinit var resultLauncherPermission : ActivityResultLauncher<Array<String>>
 
     //Объект класса, содержащий сылки на управляющие графические элементы интерфейса пользователя.
     private lateinit var binding            : ActivityListBinding
@@ -128,9 +128,9 @@ class CActivityList                         : AppCompatActivity()
         // or a lateinit var in your onAttach() or onCreate() method.
         resultLauncherPermission            =
             registerForActivityResult(
-                ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) {
+                ActivityResultContracts.RequestMultiplePermissions()
+            ) { map: Map<String, Boolean> ->
+                if (map[Manifest.permission.ACCESS_FINE_LOCATION]==true) {
                     // Permission is granted. Continue the action or workflow in your
                     // app.
                     test = 1
@@ -143,34 +143,38 @@ class CActivityList                         : AppCompatActivity()
                     test = 2
                 }
             }
+        checkAndRequestPermissions()
 
-        when {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                // You can use the API that requires the permission.
-                test = 3
-            }
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) -> {
-                // In an educational UI, explain to the user why your app requires this
-                // permission for a specific feature to behave as expected, and what
-                // features are disabled if it's declined. In this UI, include a
-                // "cancel" or "no thanks" button that lets the user continue
-                // using your app without granting the permission.
-                //showInContextUI(...)
-                Toast.makeText(this, "Разреши!!!", Toast.LENGTH_LONG).show()
-            }
-            else -> {
-                // You can directly ask for the permission.
-                // The registered ActivityResultCallback gets the result of this request.
-                resultLauncherPermission.launch(
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-            }
-        }
 
+    }
+    private fun checkAndRequestPermissions()
+    {
+        val allPermissions = listOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+        )
+//        val permissionsToAsk = mutableListOf<String>()
+//        for (i in 0..allPermissions.size)
+//        {
+//            if (ContextCompat.checkSelfPermission(
+//                this,
+//                    allPermissions[i]
+//            ) == PackageManager.PERMISSION_DENIED)
+//                permissionsToAsk.add(allPermissions[i])
+//        }
+        val permissionsToAsk = allPermissions
+            .filter {
+                return@filter ContextCompat.checkSelfPermission(
+                this,
+                    it
+                ) == PackageManager.PERMISSION_DENIED
+            }
+        if (permissionsToAsk.isNotEmpty())
+            resultLauncherPermission.launch(
+                permissionsToAsk.toTypedArray()
+            )
     }
 }
