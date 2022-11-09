@@ -1,16 +1,17 @@
 package ru.permkrai.it.android.objectsonmap.activities
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import ru.permkrai.it.android.objectsonmap.R
 import ru.permkrai.it.android.objectsonmap.adapters.CRecyclerViewAdapterObjects
 import ru.permkrai.it.android.objectsonmap.databinding.ActivityListBinding
 import ru.permkrai.it.android.objectsonmap.model.CObject
@@ -22,9 +23,12 @@ class CActivityList                         : AppCompatActivity()
 {
     private lateinit var resultLauncherObjectEdit : ActivityResultLauncher<Intent>
     private lateinit var resultLauncherObjectAdd : ActivityResultLauncher<Intent>
+    private lateinit var resultLauncherPermission : ActivityResultLauncher<String>
 
     //Объект класса, содержащий сылки на управляющие графические элементы интерфейса пользователя.
     private lateinit var binding            : ActivityListBinding
+
+    private var test = 0
 
     /****************************************************************************************************
      * Обработка события создания объекта активности.                                                   *
@@ -117,5 +121,56 @@ class CActivityList                         : AppCompatActivity()
             val intent                      = Intent(this, CActivityObjectInfo::class.java)
             resultLauncherObjectAdd.launch(intent)
         }
+
+        // Register the permissions callback, which handles the user's response to the
+        // system permissions dialog. Save the return value, an instance of
+        // ActivityResultLauncher. You can use either a val, as shown in this snippet,
+        // or a lateinit var in your onAttach() or onCreate() method.
+        resultLauncherPermission            =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    // Permission is granted. Continue the action or workflow in your
+                    // app.
+                    test = 1
+                } else {
+                    // Explain to the user that the feature is unavailable because the
+                    // feature requires a permission that the user has denied. At the
+                    // same time, respect the user's decision. Don't link to system
+                    // settings in an effort to convince the user to change their
+                    // decision.
+                    test = 2
+                }
+            }
+
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                // You can use the API that requires the permission.
+                test = 3
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) -> {
+                // In an educational UI, explain to the user why your app requires this
+                // permission for a specific feature to behave as expected, and what
+                // features are disabled if it's declined. In this UI, include a
+                // "cancel" or "no thanks" button that lets the user continue
+                // using your app without granting the permission.
+                //showInContextUI(...)
+                Toast.makeText(this, "Разреши!!!", Toast.LENGTH_LONG).show()
+            }
+            else -> {
+                // You can directly ask for the permission.
+                // The registered ActivityResultCallback gets the result of this request.
+                resultLauncherPermission.launch(
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+
     }
 }
