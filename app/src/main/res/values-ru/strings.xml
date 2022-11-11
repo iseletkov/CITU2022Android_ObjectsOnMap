@@ -9,4 +9,8 @@
     <string name="Close">Закрыть</string>
     <string name="AddObject">Добавить объект</string>
     <string name="name">Наименование</string>
+    <string name="login">Логин/Почта</string>
+    <string name="password">Пароль</string>
+    <string name="log_in">Войти</string>
+    <string name="Logout">Выйти</string>
 </resources>

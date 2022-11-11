@@ -8,4 +8,9 @@
     <string name="Close">Close</string>
     <string name="AddObject">Add object</string>
     <string name="name">Name</string>
+    <string name="KEY_USER_NAME" translatable="false">KEY_USER_NAME</string>
+    <string name="login">login</string>
+    <string name="password">password</string>
+    <string name="log_in">log in</string>
+    <string name="Logout">Logout</string>
 </resources>

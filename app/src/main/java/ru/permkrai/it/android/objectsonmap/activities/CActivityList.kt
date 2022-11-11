@@ -3,11 +3,15 @@ package ru.permkrai.it.android.objectsonmap.activities
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.permkrai.it.android.objectsonmap.R
 import ru.permkrai.it.android.objectsonmap.adapters.CRecyclerViewAdapterObjects
 import ru.permkrai.it.android.objectsonmap.databinding.ActivityListBinding
 import ru.permkrai.it.android.objectsonmap.model.CObject
@@ -35,6 +40,9 @@ class CActivityList                         : AppCompatActivity()
 
     private var test = 0
 
+    //Ссылка а объект для работы с настройками приложения.
+    private lateinit var pref               : SharedPreferences
+
     /****************************************************************************************************
      * Обработка события создания объекта активности.                                                   *
      ***************************************************************************************************/
@@ -44,8 +52,12 @@ class CActivityList                         : AppCompatActivity()
         binding                             = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Тестовый список объектов, которые будт выводится пользователю.
-        val items = mutableListOf<CObject>()
+        //Получаем ссылку на объект настроек, ассоциируем его с файлом.
+        pref                                = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+
+
+        //Тестовый список объектов, которые будут выводится пользователю.
+        val items                           = mutableListOf<CObject>()
         items.add(CObject("Кунгу́рская ледяна́я пеще́ра", "Одна из крупнейших карстовых пещер в Европейской части России, седьмая в мире гипсовая пещера по протяжённости. Протяжённость пещеры по данным на 2021 год составляет около 8153 м, из них около 2 километров оборудовано для посещений туристами."))
         items.add(CObject("Белого́рский Свято-Никола́евский монасты́рь", "Мужской монастырь на Белой горе в Кунгурском районе Пермского края. Относится к Пермской епархии Русской православной церкви. За строгость устава эту обитель некогда называли Уральским Афономм."))
         items.add(CObject("Пермский краеведческий музей","Старейший и крупнейший музей Пермского края. Насчитывает 600 000 единиц хранения и включает более 50 коллекций регионального, российского и мирового значения, в числе объектов музея 22 памятника истории и культуры, из них 16 памятников федерального значения и 6 местного значения."))
@@ -73,8 +85,8 @@ class CActivityList                         : AppCompatActivity()
         )
 
         /************************************************************************************************
-         * Обработка события завершения активности с информацией по объекту в режиме редактирования
-         * существующего объекта.                            *
+         * Обработка события завершения активности с информацией по объекту в режиме редактирования     *
+         * существующего объекта.                                                                       *
          ***********************************************************************************************/
         resultLauncherObjectEdit            = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -148,60 +160,24 @@ class CActivityList                         : AppCompatActivity()
                     test = 2
                 }
             }
-        //checkAndRequestPermissions()
-        // Индивидуальный раздел памяти для вашего приложения.
-        // val file = File(applicationContext.filesDir, "123.txt")
+        checkAndRequestPermissions()
 
-        //Если версия Android <29
-        //val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "123.txt")
-        //Если версия Android >=29, папка не очень красивая/удобная
-//        val file = File(applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "123.txt")
-        //Если версия Android >=29, папка удобная
-        //https://developer.android.com/training/data-storage/shared/documents-files
 
-        //Запись произвольного тектсового файла.
-//        file.createNewFile()
-//        val text = listOf("adawd awdaw", "adad aafgsr", "123 4534")
-//        file.printWriter().use { out ->
-//            text.forEach {
-//                out.println(it)
-//            }
-//        }
-        //Чтение произвольного текстового файла
-//        val text = file.readLines()
-//            .toList()
-//        Log.d("TEST", text.joinToString("\n"))
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-//        with (pref.edit()) {
-//            putInt("KEY_INT", 123)
-//            putString("KEY_STRING", "adawd ad ada dada wdawd")
-//            apply()
-//        }
-
-        val text = pref.getString("KEY_STRING", "default value")
-        var chisl = pref.getInt("KEY_INT", 9999)
-        test = 123
     }
+    /****************************************************************************************************
+     * Проверка наличия и запрос необходимых разрешений.                                                *
+     ***************************************************************************************************/
     private fun checkAndRequestPermissions()
     {
-        val allPermissions = listOf(
+        val allPermissions                  = listOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
         )
-//        val permissionsToAsk = mutableListOf<String>()
-//        for (i in 0..allPermissions.size)
-//        {
-//            if (ContextCompat.checkSelfPermission(
-//                this,
-//                    allPermissions[i]
-//            ) == PackageManager.PERMISSION_DENIED)
-//                permissionsToAsk.add(allPermissions[i])
-//        }
-        val permissionsToAsk = allPermissions
+        val permissionsToAsk                = allPermissions
             .filter {
                 return@filter ContextCompat.checkSelfPermission(
                 this,
@@ -212,5 +188,44 @@ class CActivityList                         : AppCompatActivity()
             resultLauncherPermission.launch(
                 permissionsToAsk.toTypedArray()
             )
+    }
+    /****************************************************************************************************
+     * Привязка файла с описанием структуры меню к данной активности при создании активности.           *
+     ***************************************************************************************************/
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater          = menuInflater
+        inflater.inflate(R.menu.menu_activity_list, menu)
+        return true
+    }
+    /****************************************************************************************************
+     * Обработка нажатия на элементы меню.                                                              *
+     ***************************************************************************************************/
+    override fun onOptionsItemSelected(
+        item                                : MenuItem
+    )                                       : Boolean
+    {
+        return when (item.itemId) {
+            R.id.miLogout -> {
+                doLogout()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+    /****************************************************************************************************
+     * Обработка нажатия кнопки "Выход из учётной записи" в меню.                                       *
+     ***************************************************************************************************/
+    private fun doLogout()
+    {
+        //Сохраняем в файл с настройками приложения факт отсутствия учётной записи.
+        with (pref.edit()) {
+            putString(getString(R.string.KEY_USER_NAME), "")
+            apply()
+        }
+        //Закрываем данную активность.
+        finish()
+        //Опционально можем вызвать активность ввода учётных данных.
+        val intent                  = Intent(this, CActivityLogin::class.java)
+        startActivity(intent)
     }
 }
