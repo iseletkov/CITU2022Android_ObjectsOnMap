@@ -6,15 +6,20 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.preference.Preference
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.permkrai.it.android.objectsonmap.adapters.CRecyclerViewAdapterObjects
 import ru.permkrai.it.android.objectsonmap.databinding.ActivityListBinding
 import ru.permkrai.it.android.objectsonmap.model.CObject
+import java.io.File
 
 /********************************************************************************************************
  * Активность с отображением списка объектов на карте.                                                  *
@@ -143,9 +148,40 @@ class CActivityList                         : AppCompatActivity()
                     test = 2
                 }
             }
-        checkAndRequestPermissions()
+        //checkAndRequestPermissions()
+        // Индивидуальный раздел памяти для вашего приложения.
+        // val file = File(applicationContext.filesDir, "123.txt")
 
+        //Если версия Android <29
+        //val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "123.txt")
+        //Если версия Android >=29, папка не очень красивая/удобная
+//        val file = File(applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "123.txt")
+        //Если версия Android >=29, папка удобная
+        //https://developer.android.com/training/data-storage/shared/documents-files
 
+        //Запись произвольного тектсового файла.
+//        file.createNewFile()
+//        val text = listOf("adawd awdaw", "adad aafgsr", "123 4534")
+//        file.printWriter().use { out ->
+//            text.forEach {
+//                out.println(it)
+//            }
+//        }
+        //Чтение произвольного текстового файла
+//        val text = file.readLines()
+//            .toList()
+//        Log.d("TEST", text.joinToString("\n"))
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+//        with (pref.edit()) {
+//            putInt("KEY_INT", 123)
+//            putString("KEY_STRING", "adawd ad ada dada wdawd")
+//            apply()
+//        }
+
+        val text = pref.getString("KEY_STRING", "default value")
+        var chisl = pref.getInt("KEY_INT", 9999)
+        test = 123
     }
     private fun checkAndRequestPermissions()
     {
