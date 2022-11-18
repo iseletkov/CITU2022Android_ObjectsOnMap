@@ -1,41 +1,61 @@
 package ru.permkrai.it.android.objectsonmap.repositories
 
 import androidx.annotation.WorkerThread
-import kotlinx.coroutines.flow.Flow
 import ru.permkrai.it.android.objectsonmap.dao.IDAOObjects
 import ru.permkrai.it.android.objectsonmap.model.CObject
+import java.util.UUID
 
-// Declares the DAO as a private property in the constructor. Pass in the DAO
-// instead of the whole database, because you only need access to the DAO
+/********************************************************************************************************
+ * Репозиторий для работы с данными об объектах.                                                        *
+ * @author Селетков И.П. 2022 1116.                                                                     *
+ *******************************************************************************************************/
 class CRepositoryObjects(
     private val daoObjects                  : IDAOObjects
     )
 {
+    /****************************************************************************************************
+     * Получение списка всех элементов.                                                                 *
+     ***************************************************************************************************/
+    fun getAll()                            = daoObjects.getAll()
 
-    // Room executes all queries on a separate thread.
-    // Observed Flow will notify the observer when the data has changed.
-    val allObjects                          : Flow<List<CObject>>
-                                            = daoObjects.getAll()
+    /****************************************************************************************************
+     * Получение элемента по идентификатору.                                                            *
+     * @param id - идентификатор элемента для поиска.                                                   *
+     * @return объект с идентификатором id или ??? (упадёт) в случае отсутствия.                        *
+     ***************************************************************************************************/
+    fun getById(
+        id                                  : UUID
+    )                                       = daoObjects.getById(id)
 
-    // By default Room runs suspend queries off the main thread, therefore, we don't need to
-    // implement anything else to ensure we're not doing long running database work
-    // off the main thread.
+    /****************************************************************************************************
+     * Сохранение нового элемента в БД.                                                                 *
+     * @param item - объект для сохранения.                                                             *
+     ***************************************************************************************************/
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(
-        `object`                            : CObject
+        item                                : CObject
     ) {
-        daoObjects.insertAll(`object`)
+        daoObjects.insertAll(item)
     }
-    // By default Room runs suspend queries off the main thread, therefore, we don't need to
-    // implement anything else to ensure we're not doing long running database work
-    // off the main thread.
-    @Suppress("RedundantSuspendModifier")
+    /****************************************************************************************************
+     * Удаление существующего объекта.                                                                  *
+     * @param item - объект для удаления.                                                               *
+     ***************************************************************************************************/
     @WorkerThread
     suspend fun delete(
-        `object`                            : CObject
+        item                            : CObject
     ) {
-        daoObjects.delete(`object`)
+        daoObjects.delete(item)
+    }
+    /****************************************************************************************************
+     * Обновление существующего объекта.                                                                *
+     * @param item - объект для обновления.                                                             *
+     ***************************************************************************************************/
+    suspend fun update(
+        item                            : CObject
+    ) {
+        daoObjects.update(item)
     }
 
 }

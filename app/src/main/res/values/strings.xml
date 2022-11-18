@@ -13,4 +13,5 @@
     <string name="password">password</string>
     <string name="log_in">log in</string>
     <string name="Logout">Logout</string>
+    <string name="KEY_OBJECT_ID" translatable="false">KEY_OBJECT_ID</string>
 </resources>

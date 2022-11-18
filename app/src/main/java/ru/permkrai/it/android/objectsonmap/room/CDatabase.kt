@@ -8,14 +8,23 @@ import ru.permkrai.it.android.objectsonmap.dao.IDAOObjects
 import ru.permkrai.it.android.objectsonmap.model.CComment
 import ru.permkrai.it.android.objectsonmap.model.CObject
 
-@Database(entities = [
+/********************************************************************************************************
+ * Класс для работы с БД.                                                                               *
+ * @author Селетков И.П. 2022 1116                                                                      *
+ *******************************************************************************************************/
+@Database(
+    //Список сущностей, которые будут храниться в БД.
+    entities                                = [
         CObject::class,
         CComment::class
     ],
-    version = 1,
-    exportSchema = false)
-public abstract class CDatabase             : RoomDatabase() {
-
+    version                                 = 1,
+    exportSchema                            = false
+)
+abstract class CDatabase                    : RoomDatabase() {
+    /****************************************************************************************************
+     * Класс для доступа к данным объектов в БД.                                                        *
+     ***************************************************************************************************/
     abstract fun daoObjects()               : IDAOObjects
 
 
@@ -26,6 +35,9 @@ public abstract class CDatabase             : RoomDatabase() {
         private var INSTANCE                : CDatabase?
                                             = null
 
+        /************************************************************************************************
+         * Статический метод для создания единого на всю программу экземпляра класса CDatabase.         *
+         ***********************************************************************************************/
         fun getDatabase(
             context                         : Context
         )                                   : CDatabase
@@ -36,7 +48,7 @@ public abstract class CDatabase             : RoomDatabase() {
                 val instance                = Room.databaseBuilder(
                     context.applicationContext,
                     CDatabase::class.java,
-                    "database.db"
+                    "database.db" //Название файла в файловой системе.
                 )
                     .build()
                 INSTANCE                    = instance

@@ -1,22 +1,30 @@
 package ru.permkrai.it.android.objectsonmap.activities
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import ru.permkrai.it.android.objectsonmap.CApplication
 import ru.permkrai.it.android.objectsonmap.R
-import ru.permkrai.it.android.objectsonmap.databinding.ActivityListBinding
 import ru.permkrai.it.android.objectsonmap.databinding.ActivityObjectInfoBinding
+import ru.permkrai.it.android.objectsonmap.viewmodels.CViewModelFactory
+import ru.permkrai.it.android.objectsonmap.viewmodels.CViewModelObjectInfo
+import java.util.*
+
 /********************************************************************************************************
  * Активность с отображением информации по одному объекту.                                              *
  *******************************************************************************************************/
 class CActivityObjectInfo                   : AppCompatActivity()
 {
+    //Объект с сылками на элементы графического интерфейса пользователя.
     private lateinit var binding            : ActivityObjectInfoBinding
-    //Порядковый номер редактируемого элемента в общем списке.
-    private var index                       : Int
-                                            = -1 //Если какие-то проблемы, то -1
+
+    //Получение ссылки на экземляр класса CViewModelObjectInfo
+    private val viewModel                   : CViewModelObjectInfo by viewModels {
+        CViewModelFactory((application as CApplication).repositoryObjects)
+    }
 
     /****************************************************************************************************
      * Обработка события создания объекта активности.                                                   *
@@ -28,30 +36,19 @@ class CActivityObjectInfo                   : AppCompatActivity()
         binding                             = ActivityObjectInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Пример кода проверки наличия параметров без использования синтаксиса языка Kotlin.
-//        val extr = intent.extras
-//        if ( extr==null)
-//        {
-//            index = -1
-//            binding.inputName.editText!!.setText("")
-//        }
-//        else
-//        {
-//            index = extr.getInt("KEY_INDEX")
-//            //Вывод наименования объекта на экран.
-//            binding.inputName.editText!!.setText(intent.extras!!.getString("KEY_OBJECT_NAME")?: "")
-//        }
-
         //Получение переданных параметров
         intent.extras?.let{
-            index                           = it.getInt("KEY_INDEX")
-            //Вывод наименования объекта на экран.
-            binding.inputName.editText!!.setText(it.getString("KEY_OBJECT_NAME")?: "")
+            viewModel.setId(UUID.fromString(it.getString(getString(R.string.KEY_OBJECT_ID))))
         }?:
         //Этот кусок кода выполняется, если intent.extras==null (т.е. параметры не переданы).
         run{
-            index                           = -1
-            binding.inputName.editText!!.setText("")
+            //Говорим модели представления, что идентификатора объекта нет.
+            viewModel.setId(null)
+        }
+        lifecycleScope.launch {
+            viewModel.item.collect{
+                binding.inputName.editText!!.setText(it.name)
+            }
         }
 
         /************************************************************************************************
@@ -59,17 +56,13 @@ class CActivityObjectInfo                   : AppCompatActivity()
          ***********************************************************************************************/
         onBackPressedDispatcher.addCallback(
             this /* lifecycle owner */,
-            object : OnBackPressedCallback(true)
+            object                          : OnBackPressedCallback(true)
             {
                 override fun handleOnBackPressed() {
-                    //Сохраняем введённые параметры и закрываем активность.
-                    val myIntent = Intent()
-                    myIntent.putExtra("KEY_INDEX", index)
-                    //Здесь в явном виде используется преобразование к строке,
-                    //потому что без него результат команды считается чем-то более сложным (Parsable, Serializable),
-                    //и не отображается методом getStingExtra в родительской форме.
-                    myIntent.putExtra("KEY_OBJECT_NAME", "${binding.inputName.editText?.text ?: ""}")
-                    setResult(RESULT_OK, myIntent)
+                    //Передаём модели представления содержимое полей с формы для записи в объект.
+                    viewModel.save(
+                        binding.inputName.editText?.text.toString()
+                    )
                     finish()
                 }
             }

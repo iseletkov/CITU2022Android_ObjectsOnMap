@@ -1,9 +1,10 @@
 package ru.permkrai.it.android.objectsonmap.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.permkrai.it.android.objectsonmap.databinding.RecyclerviewobjectsItemBinding
 import ru.permkrai.it.android.objectsonmap.model.CObject
@@ -13,20 +14,19 @@ import ru.permkrai.it.android.objectsonmap.model.CObject
  * об элементе в строку списка.                                                                         *
  * @link https://developer.alexanderklimov.ru/android/views/recyclerview-kot.php                        *
  * @link https://medium.com/nuances-of-programming/kotlin-реализация-recyclerview-на-android-6c93981e9abf
- * @link https://medium.com/android-gate/recyclerview-item-click-listener-the-right-way-daecc838fbb9
- * @link https://antonioleiva.com/recyclerview-adapter-kotlin/
+ * @link https://medium.com/android-gate/recyclerview-item-click-listener-the-right-way-daecc838fbb9    *
+ * @link https://antonioleiva.com/recyclerview-adapter-kotlin/                                          *
+ * @author Селетков И.П. 2022 1101.                                                                     *
  *******************************************************************************************************/
 class CRecyclerViewAdapterObjects
 /********************************************************************************************************
  * Конструктор.                                                                                         *
- * @param items - список элементов данных, информацию по которым нужноо выводить на экран.              *
  * @param onItemClickListener - обработчик кликов на элементы списка.                                   *
  * @param onItemRemoveListener - обработчик кликов на кнопку "удалить" элементов списка.                *
  *******************************************************************************************************/
 (
-    private val items                       : MutableList<CObject>,
-    private val onItemClickListener         : (Int, CObject) -> Unit,
-    private val onItemRemoveListener        : (Int, CObject) -> Unit
+    private val onItemClickListener         : (CObject) -> Unit,
+    private val onItemRemoveListener        : (CObject) -> Unit
 )                                           : RecyclerView.Adapter<CRecyclerViewAdapterObjects.CViewHolderObject>()
 {
     /****************************************************************************************************
@@ -41,8 +41,8 @@ class CRecyclerViewAdapterObjects
      ***************************************************************************************************/
     (
         private val binding                 : RecyclerviewobjectsItemBinding,
-        private val onItemClickListener     : (Int, CObject) -> Unit,
-        private val onItemRemoveListener    : (Int, CObject) -> Unit
+        private val onItemClickListener     : (CObject) -> Unit,
+        private val onItemRemoveListener    : (CObject) -> Unit
     )                                       : RecyclerView.ViewHolder(binding.root)
     {
         //Элемент данных, который отображается в текущем элементе списка.
@@ -50,11 +50,11 @@ class CRecyclerViewAdapterObjects
         init{
             //Обработка клика на все поля элемента, кроме кнопки с корзиной.
             binding.linearLayoutObject.setOnClickListener {
-                onItemClickListener(items.indexOf(item), item)
+                onItemClickListener(item)
             }
             //Обработка клика на кнопку с корзиной
             binding.buttonRemove.setOnClickListener {
-                onItemRemoveListener(items.indexOf(item), item)
+                onItemRemoveListener(item)
             }
         }
 
@@ -93,13 +93,46 @@ class CRecyclerViewAdapterObjects
      * @param position - порядковый номер элемента данных в списке.                                     *
      ***************************************************************************************************/
     override fun onBindViewHolder(holder: CViewHolderObject, position: Int) {
-        holder.bind(items[position])
+        holder.bind(differ.currentList[position])
     }
     /****************************************************************************************************
      * Возвращает актуальное количество элементов в списке.                                             *
      * @return общее количество элементов данных в списке.                                              *
      ***************************************************************************************************/
     override fun getItemCount(): Int {
-        return items.size
+        return differ.currentList.size
+    }
+
+    /****************************************************************************************************
+     * Объект для автоматического поиска разницы в двух списках и обновления только нужных элементов.   *
+     ***************************************************************************************************/
+    private val differ                      = AsyncListDiffer(this,differCallback)
+    /****************************************************************************************************
+     * Обновление содержимого списка на форме в соответствии с передынным списком items.                *
+     * @param items новый список элментов для отображения.                                              *
+     ***************************************************************************************************/
+    fun submitList(
+        items                               : List<CObject>
+    ) //Ретранслирует вызов методу из объекта differ
+                                            = differ.submitList(items)
+    //Статическая часть класса,
+    //поле differCallback будет доступно относительно самого класса,
+    //а не его экземпляров.
+    companion object {
+        /************************************************************************************************
+         * Анонимный объект, реализующий методы, необходимые для сравнения двух элементов.              *
+         ***********************************************************************************************/
+        private val differCallback          = object
+                                            : DiffUtil.ItemCallback<CObject>(){
+            override fun areItemsTheSame(oldItem: CObject, newItem: CObject): Boolean {
+                return  oldItem.id == newItem.id
+            }
+
+            @SuppressLint("DiffUtilEquals")
+            override fun areContentsTheSame(oldItem: CObject, newItem: CObject): Boolean {
+                return oldItem == newItem
+            }
+
+        }
     }
 }
