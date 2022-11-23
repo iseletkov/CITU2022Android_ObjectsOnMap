@@ -1,4 +1,4 @@
-package ru.permkrai.it.android.objectsonmap.room
+package ru.permkrai.it.android.objectsonmap.utils.room
 
 import android.content.Context
 import androidx.room.Database

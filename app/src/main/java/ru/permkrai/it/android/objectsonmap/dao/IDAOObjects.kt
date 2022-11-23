@@ -2,8 +2,6 @@ package ru.permkrai.it.android.objectsonmap.dao
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import ru.permkrai.it.android.objectsonmap.model.CObject
 import java.util.*
 
@@ -17,7 +15,7 @@ interface IDAOObjects {
      * Получение списка всех элементов.                                                                 *
      ***************************************************************************************************/
     @Query("SELECT * FROM objects")
-    fun getAll()                            : Flow<List<CObject>>
+    fun getAllFlow()                        : Flow<List<CObject>>
 
     /****************************************************************************************************
      * Запрос элемента по идентификатору.                                                               *
@@ -25,10 +23,14 @@ interface IDAOObjects {
      * @return объект с идентификатором id или пустой поток в случае отсутствия.                        *
      ***************************************************************************************************/
     @Query("SELECT * FROM objects WHERE id=:id")
-    fun getById(
+    fun getByIdFlow(
         id                                  : UUID
     )                                       : Flow<CObject>
 
+    @Query("SELECT * FROM objects WHERE id=:id")
+    fun getById(
+        id                                  : UUID
+    )                                       : CObject?
     /****************************************************************************************************
      * Сохранение нескольких новых элементов в БД.                                                      *
      * @param items - объект или объекты для сохранения.                                              *

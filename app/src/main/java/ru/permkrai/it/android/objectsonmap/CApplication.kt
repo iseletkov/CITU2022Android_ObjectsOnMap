@@ -2,7 +2,8 @@ package ru.permkrai.it.android.objectsonmap
 
 import android.app.Application
 import ru.permkrai.it.android.objectsonmap.repositories.CRepositoryObjects
-import ru.permkrai.it.android.objectsonmap.room.CDatabase
+import ru.permkrai.it.android.objectsonmap.utils.network.ServiceAPIFactory
+import ru.permkrai.it.android.objectsonmap.utils.room.CDatabase
 
 /********************************************************************************************************
  * Основной класс программы.                                                                            *
@@ -10,5 +11,10 @@ import ru.permkrai.it.android.objectsonmap.room.CDatabase
 class CApplication                          : Application()
 {
     private val database by lazy { CDatabase.getDatabase(this) }
-    val repositoryObjects by lazy { CRepositoryObjects(database.daoObjects()) }
+    val repositoryObjects by lazy {
+        CRepositoryObjects(
+            database.daoObjects(),
+            ServiceAPIFactory.serviceAPIObjects
+        )
+    }
 }

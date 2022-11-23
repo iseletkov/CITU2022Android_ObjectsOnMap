@@ -61,7 +61,7 @@ class CViewModelObjectInfo(
         viewModelScope.launch(Dispatchers.IO)
         {
             //Обновляем свойства объекта по данным из формы (Надо DataBinding)
-            item.value.name             = name
+            item.value.name                 = name
             //Если идентификатор есть - вызываем обновление в БД.
             id.value?.let {
                 repositoryObject.update(item.value)
