@@ -3,6 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
+    <item android:id="@+id/miMapGoogle"
+        android:icon="@drawable/map_24"
+        android:title="Google"
+        app:showAsAction="never"/>
+    <item android:id="@+id/miMapYandex"
+        android:icon="@drawable/map_24"
+        android:title="Yandex"
+        app:showAsAction="never"/>
     <item android:id="@+id/miLogout"
         android:icon="@drawable/ic_logout_24"
         android:title="@string/Logout"

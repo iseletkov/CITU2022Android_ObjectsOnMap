@@ -20,6 +20,10 @@ class CViewModelFactory (
             @Suppress("UNCHECKED_CAST")
             return CViewModelObjectInfo(repositoryObjects) as T
         }
+        if (modelClass.isAssignableFrom(CViewModelActivityMap::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return CViewModelActivityMap(repositoryObjects) as T
+        }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

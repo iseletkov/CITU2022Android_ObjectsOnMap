@@ -186,6 +186,14 @@ class CActivityList                         : AppCompatActivity()
     )                                       : Boolean
     {
         return when (item.itemId) {
+            R.id.miMapGoogle -> {
+                switchToMapGoogle()
+                true
+            }
+            R.id.miMapYandex -> {
+                switchToMapYandex()
+                true
+            }
             R.id.miLogout -> {
                 doLogout()
                 true
@@ -207,6 +215,16 @@ class CActivityList                         : AppCompatActivity()
         finish()
         //Опционально можем вызвать активность ввода учётных данных.
         val intent                  = Intent(this, CActivityLogin::class.java)
+        startActivity(intent)
+    }
+    private fun switchToMapGoogle()
+    {
+        val intent                  = Intent(this, CActivityMapGoogle::class.java)
+        startActivity(intent)
+    }
+    private fun switchToMapYandex()
+    {
+        val intent                  = Intent(this, CActivityMapYandex::class.java)
         startActivity(intent)
     }
 }
